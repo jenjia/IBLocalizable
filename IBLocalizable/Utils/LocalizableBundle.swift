@@ -13,17 +13,20 @@ extension Bundle {
     
     public static func localizedBundle() -> Bundle! {
         if bundle == nil {
-            let appLang = UserDefaults.standard.string(forKey: "app_lang") ?? "Base"
-            let path = Bundle.main.path(forResource: appLang, ofType: "lproj")
-            bundle = Bundle(path: path!)
+            if let appLang = UserDefaults.standard.string(forKey: "app_lang"),
+                let path = Bundle.main.path(forResource: appLang, ofType: "lproj") {
+                bundle = Bundle(path: path)
+            }else {
+                bundle = Bundle.main
+            }
         }
         
-        return bundle;
+        return bundle
     }
     
     public static func setLanguage(lang: String) {
         UserDefaults.standard.set(lang, forKey: "app_lang")
-        let path = Bundle.main.path(forResource: lang, ofType: "lproj")
-        bundle = Bundle(path: path!)
+        UserDefaults.standard.synchronize()
+        bundle = localizedBundle()
     }
 }

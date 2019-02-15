@@ -10,22 +10,21 @@ import Foundation
 
 extension Bundle {
     private static var bundle: Bundle!
+    private static let APP_LANG_KEY = "app_lang"
     
     public static func localizedBundle() -> Bundle! {
-        if bundle == nil {
-            if let appLang = UserDefaults.standard.string(forKey: "app_lang"),
-                let path = Bundle.main.path(forResource: appLang, ofType: "lproj") {
-                bundle = Bundle(path: path)
-            }else {
-                bundle = Bundle.main
-            }
+        if let appLang = UserDefaults.standard.string(forKey: APP_LANG_KEY),
+            let path = Bundle.main.path(forResource: appLang, ofType: "lproj") {
+            bundle = Bundle(path: path)
+        } else {
+            bundle = Bundle.main
         }
         
         return bundle
     }
     
     public static func setLanguage(lang: String) {
-        UserDefaults.standard.set(lang, forKey: "app_lang")
+        UserDefaults.standard.set(lang, forKey: APP_LANG_KEY)
         UserDefaults.standard.synchronize()
         bundle = localizedBundle()
     }

@@ -16,9 +16,7 @@ extension String {
         return localize(withBundle: Bundle.localizedBundle())
     }
     
-    public func localize(withBundle bundle: Bundle) -> String
-    {
+    public func localize(withBundle bundle: Bundle) -> String {
         return NSLocalizedString(self, tableName: nil, bundle: bundle, value: "", comment: "")
     }
-
 }
